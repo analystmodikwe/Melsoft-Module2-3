@@ -457,3 +457,22 @@ console.log("15.", "5" - 3 + 2);
  * (or me in 3 months) does, and mixing && with || or doing money maths are
  * places where a wrong assumption costs real money. Clear beats clever.
  */
+
+// challenge 6
+section("PART A")
+let Grade=95 //A
+    Grade=82 //B
+    Grade=73  //C
+    Grade=65 //D
+    Grade=54 //E
+    Grade=42 //F
+    Grade=0 //F
+    Grade=100 //A
+console.log(
+    Grade >=90 ? "A" : 
+    Grade >=80 ? "B" :
+    Grade >= 70 ? "C" :
+    Grade >= 60 ? "D" :
+    Grade >= 50 ? "E" :
+    "F" 
+);
