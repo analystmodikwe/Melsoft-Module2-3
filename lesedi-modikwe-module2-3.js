@@ -552,7 +552,7 @@ console.log("Null user, 3 (?. ??):", nullUser?.address?.city ?? "Unknown city");
 // Note: technique 1 prints null for the null user, because && returns the
 // first falsy value it meets (the null itself). ?. always returns undefined.
 
-section ("PART D");
+console.log ("PART D");
 // 1. Prediction: "finally" (string)
 // null, undefined, 0 and "" are all falsy, so || keeps going to the last value
 let r1 = null || undefined || 0 || "" || "finally";
@@ -656,3 +656,102 @@ console.log("10:", typeof undeclaredVariable);
 // Array.isArray() returns true only for real arrays
 console.log("Array.isArray([]):", Array.isArray([]));   // true
 console.log("Array.isArray({}):", Array.isArray({}));   // false
+
+console.log("PART B");
+
+// instanceof checks whether a value was created by a certain type (constructor)
+// and returns true or false
+
+// 1. Prediction: true
+console.log("1:", [] instanceof Array);
+
+// 2. Prediction: true
+// Arrays are objects, so they are an instance of Object as well
+console.log("2:", [] instanceof Object);
+
+// 3. Prediction: true
+console.log("3:", {} instanceof Object);
+
+// 4. Prediction: false
+// "hello" is a primitive (a plain value), not an object created with String
+console.log("4:", "hello" instanceof String);
+
+// 5. Prediction: true
+// new String() creates a String OBJECT, so instanceof works
+console.log("5:", new String("hello") instanceof String);
+
+// 6. Prediction: false
+// 42 is a primitive number, not an object, so the same rule as number 4 applies
+console.log("6:", 42 instanceof Number);
+
+// 7. Prediction: true
+console.log("7:", new Date() instanceof Date);
+
+// 8. Prediction: true
+console.log("8:", /abc/ instanceof RegExp);
+
+// ONE case where typeof is right and instanceof is wrong:
+// Checking primitives (strings, numbers, booleans). typeof "hello" gives
+// "string", but "hello" instanceof String is false, so instanceof gives
+// the wrong answer for primitives.
+
+// ONE case where instanceof is right and typeof is wrong:
+// Telling kinds of objects apart (arrays, dates, regular expressions).
+// typeof gives "object" for all of them, but instanceof can tell that
+// new Date() is a Date and /abc/ is a RegExp.
+
+
+console.log("PART C");
+
+// delete removes a property from an object and returns true or false.
+// true = the property is gone (or never existed), false = it could not be removed.
+
+// ---------- 1. Deleting an object property ----------
+const users = { name: 'Lerato', age: 25, role: 'student' };
+
+console.log("1 before:", users);          // { name: 'Lerato', age: 25, role: 'student' }
+delete users.role;                        // removes the role property completely
+console.log("1 after:", users);           // { name: 'Lerato', age: 25 }
+
+// ---------- 2. Deleting a variable ----------
+let x = 5;
+// @ts-ignore
+console.log("2 delete returned:", delete x); // false
+console.log("2 x is still:", x);             // 5
+
+// delete only works on object properties, NOT on variables declared
+// with let, const or var. It returns false and nothing changes.
+// (In strict mode this would be a SyntaxError instead.)
+
+// ---------- 3. Deleting an array element ----------
+const arr = [1, 2, 3, 4];
+delete arr[1];                           // returns true, but see the result below
+
+console.log("3 arr:", arr);              // [ 1, <1 empty item>, 3, 4 ]
+console.log("3 length:", arr.length);    // 4 (still 4!)
+console.log("3 arr[1]:", arr[1]);        // undefined
+
+// Why delete on arrays is dangerous:
+// delete does NOT shift the other elements or shrink the array. It just
+// leaves an empty "hole" at that position, and the length stays 4.
+// The array now has a gap, which breaks loops and methods that expect
+// every position to hold a value, and it makes bugs hard to spot.
+
+// ---------- 4. Deleting a built-in ----------
+console.log("4 delete returned:", delete Math.PI); // false
+console.log("4 Math.PI is still:", Math.PI);       // 3.141592653589793
+
+// I would not use delete to remove an item from an array, because it
+// leaves an empty hole and does not change the length, so the array ends
+// up with a gap that can cause bugs in loops and calculations. Instead I
+// would use splice(index, 1), which removes the item and shifts the rest
+// down, or filter(), which returns a new array without the unwanted item.
+
+// this is how i would do it:
+const items = ["a", "b", "c", "d"];
+items.splice(1, 1);                      // removes 1 item at position 1 ("b")
+console.log("splice result:", items);    // [ 'a', 'c', 'd' ]
+
+const items2 = ["a", "b", "c", "d"];
+const filtered = items2.filter((item, index) => index !== 1); // keeps all except position 1
+console.log("filter result:", filtered); // [ 'a', 'c', 'd' ]
