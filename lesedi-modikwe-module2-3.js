@@ -606,3 +606,53 @@ console.log("9:", r9, typeof r9);
 // so the rest of the chain (?.bar?.baz) is skipped
 let r10 = null?.foo?.bar?.baz;
 console.log("10:", r10, typeof r10);
+
+// CHALLENGE 7
+console.log ("n=== CHALLENGE 7 ==")
+console.log ("n=== PART A==")
+
+// typeof returns a STRING naming the type of a value
+
+// 1. Prediction: "number"
+console.log("1:", typeof 42);
+
+// 2. Prediction: "string"
+console.log("2:", typeof "hello");
+
+// 3. Prediction: "boolean"
+console.log("3:", typeof true);
+
+// 4. Prediction: "undefined"
+console.log("4:", typeof undefined);
+
+// 5. Prediction: "object" 
+// null is not really an object. This is a mistake from the first version of
+// JavaScript that was never fixed, because fixing it would break old websites.
+console.log("5:", typeof null);
+
+// 6. Prediction: "object"
+console.log("6:", typeof {});
+
+// 7. Prediction: "object" 
+// Arrays are a special kind of object, so typeof cannot tell them apart from {}
+console.log("7:", typeof []);
+
+// 8. Prediction: "function"
+// Functions are objects too, but typeof gives them their own result
+console.log("8:", typeof function() {});
+
+// 9. Prediction: "number"
+// NaN means "Not a Number", but it is still a value of the number type
+console.log("9:", typeof NaN);
+
+// 10. Prediction: "undefined"
+// It does not throw because typeof is built to be safe: if the variable
+// was never declared, it just reports "undefined" instead of crashing.
+// Using the variable by itself (console.log(undeclaredVariable)) WOULD
+// throw a ReferenceError, because JavaScript tries to read it.
+console.log("10:", typeof undeclaredVariable);
+
+// One-liner to tell an array from an object:
+// Array.isArray() returns true only for real arrays
+console.log("Array.isArray([]):", Array.isArray([]));   // true
+console.log("Array.isArray({}):", Array.isArray({}));   // false
