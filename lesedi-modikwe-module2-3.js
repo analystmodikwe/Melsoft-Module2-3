@@ -524,3 +524,30 @@ console.log("Test 2 notificationCount:", notificationCount2); // 0
 // stayed 0. Zero is a valid count (no notifications), and using || here
 // would wrongly replace it with the default.
 
+console.log("n=== PART C ===");
+
+// Three test users: full data, missing address, and user is null
+let fullUser = { name: "Thabo", address: { city: "Johannesburg" } };
+let noAddress = { name: "Naledi" };
+let nullUser = null;
+
+// ---------- Full data ----------
+// Technique 1: && stops at the first falsy value, so we never read a property of undefined/null
+console.log("Full data, 1 (&&):", fullUser && fullUser.address && fullUser.address.city);
+// Technique 2: ?. stops and returns undefined as soon as something is null/undefined
+console.log("Full data, 2 (?.):", fullUser?.address?.city);
+// Technique 3: ?. plus ?? gives a default when the result is null/undefined
+console.log("Full data, 3 (?. ??):", fullUser?.address?.city ?? "Unknown city");
+
+// ---------- Missing address ----------
+console.log("No address, 1 (&&):", noAddress && noAddress.address && noAddress.address.city);
+console.log("No address, 2 (?.):", noAddress?.address?.city);
+console.log("No address, 3 (?. ??):", noAddress?.address?.city ?? "Unknown city");
+
+// ---------- User is null ----------
+console.log("Null user, 1 (&&):", nullUser && nullUser.address && nullUser.address.city);
+console.log("Null user, 2 (?.):", nullUser?.address?.city);
+console.log("Null user, 3 (?. ??):", nullUser?.address?.city ?? "Unknown city");
+
+// Note: technique 1 prints null for the null user, because && returns the
+// first falsy value it meets (the null itself). ?. always returns undefined.
