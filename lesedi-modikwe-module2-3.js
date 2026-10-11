@@ -140,3 +140,30 @@ console.log(
   typeof Boolean(undefined),
 ); // false boolean
 console.log("String(undefined):", String(undefined), typeof String(undefined)); // "undefined" string
+
+// Part B ----------------------------------------
+  console.log("\n--- Part B ---");
+  // 1. prediction "53" string. + sees a string so it turns 3 into "3" and joins them
+  show('"5" + 3', "5" + 3);
+  // 2. prediction 2 number. minus only works on numbers so "5" becomes 5
+  show('"5" - 3', "5" - 3);
+  // 3. prediction 10 number. * also forces both strings into numbers
+  show('"5" * "2"', "5" * "2");
+  // 4. prediction 2 number. true becomes 1 in maths
+  show("true + 1", true + 1);
+  // 5. prediction "true1" string. a string is involved so + joins text
+  show('true + "1"', true + "1");
+  // 6. prediction 0 number. false -> 0 and null -> 0
+  show("false + null", false + null);
+  // 7. prediction NaN number. null -> 0 but undefined -> NaN, and anything + NaN is NaN
+  show("null + undefined", null + undefined);
+  // 8. prediction Infinity number. JS doesn't crash on divide by zero
+  show("1 / 0", 1 / 0);
+  // 9. prediction NaN number. 0/0 has no meaningful answer
+  show("0 / 0", 0 / 0);
+  // 10. prediction NaN number. "abc" can't become a number so the minus gives NaN
+  show('"abc" - 1', "abc" - 1);
+  // 11. prediction "" (empty string). both arrays become "" and "" + "" is ""
+  show("[] + []", [] + []);
+  // 12. prediction "12" string. [1] becomes "1", [2] becomes "2", then they join
+  show("[1] + [2]", [1] + [2]);
