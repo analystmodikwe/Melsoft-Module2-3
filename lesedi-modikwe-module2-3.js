@@ -551,3 +551,58 @@ console.log("Null user, 3 (?. ??):", nullUser?.address?.city ?? "Unknown city");
 
 // Note: technique 1 prints null for the null user, because && returns the
 // first falsy value it meets (the null itself). ?. always returns undefined.
+
+section ("PART D");
+// 1. Prediction: "finally" (string)
+// null, undefined, 0 and "" are all falsy, so || keeps going to the last value
+let r1 = null || undefined || 0 || "" || "finally";
+console.log("1:", r1, typeof r1);
+
+// 2. Prediction: 0 (number)
+// null and undefined are skipped by ??, but 0 is NOT nullish, so it stops there
+let r2 = null ?? undefined ?? 0 ?? "" ?? "finally";
+console.log("2:", r2, typeof r2);
+
+// 3. Prediction: "first truthy" (string)
+// 0 is falsy, so || moves on to the right side
+let r3 = 0 || "first truthy";
+console.log("3:", r3, typeof r3);
+
+// 4. Prediction: 0 (number)
+// 0 is not null/undefined, so ?? keeps it and never looks at the right side
+let r4 = 0 ?? "first non-nullish";
+console.log("4:", r4, typeof r4);
+
+// 5. Prediction: false (boolean)
+// true is truthy so && continues, false is falsy so && stops and returns it
+// "never reached" is never evaluated (short-circuit)
+let r5 = true && false && "never reached";
+console.log("5:", r5, typeof r5);
+
+// 6. Prediction: "third" (string)
+// All three are truthy, so && returns the last value
+let r6 = "first" && "second" && "third";
+console.log("6:", r6, typeof r6);
+
+// 7. Prediction: "yes" (string)
+// Brackets first: true && "yes" gives "yes"
+// Then false || "yes": false is falsy, so || returns "yes"
+let r7 = false || (true && "yes");
+console.log("7:", r7, typeof r7);
+
+// 8. Prediction: "yes" (string)
+// Brackets first: false || true gives true
+// Then true && "yes": true is truthy, so && returns the last value, "yes"
+let r8 = (false || true) && "yes";
+console.log("8:", r8, typeof r8);
+
+// 9. Prediction: 3 (number)
+// All values are truthy, so && returns the last one
+let r9 = 1 && 2 && 3;
+console.log("9:", r9, typeof r9);
+
+// 10. Prediction: undefined (undefined)
+// null?.foo stops right away because the left side is null,
+// so the rest of the chain (?.bar?.baz) is skipped
+let r10 = null?.foo?.bar?.baz;
+console.log("10:", r10, typeof r10);
