@@ -289,7 +289,9 @@ console.log("\n===== CHALLENGE 3 =====");
   { let x = 5; console.log("prefix/postfix demo:", x++, x); }
   { let y = 5; console.log("prefix/postfix demo:", ++y, y); }
 
-console.log("//n Part A //////")
+// Challenge 4
+console.log("n======= Challenge 4 ======")
+console.log("n======= Part A ======")
 //1. true because its equality, their data types are not checked and false defaults to 0
 console.log(0 == false);
 
@@ -349,3 +351,33 @@ console.log(`${19}, ${ [] == 0}`)
 
 //20  true because the value in an array is zero and false is also 0
 console.log(`${20}, ${[0] == false}`)
+
+ // Part B - password reset validator ---------------------------------
+  const validateResetForm = (form) => {
+    // === on everything, so type must match too
+    const passwordsMatch = form.newPassword === form.confirmPassword;
+    const emailsMatch = form.currentEmail === form.confirmEmail;
+    const notSameAsEmail = form.newPassword !== form.currentEmail;
+    const longEnough = form.newPassword.length >= 8;
+
+    console.log("  Passwords match:", passwordsMatch ? "PASS" : "FAIL");
+    console.log("  Emails match:", emailsMatch ? "PASS" : "FAIL");
+    console.log("  Password is not the email:", notSameAsEmail ? "PASS" : "FAIL");
+    console.log("  Password at least 8 chars:", longEnough ? "PASS" : "FAIL");
+  };
+
+  console.log("\nTest 1 (should pass all four):");
+  validateResetForm({
+    newPassword: "Str0ng!Pass99",
+    confirmPassword: "Str0ng!Pass99",
+    currentEmail: "lesedi@example.com",
+    confirmEmail: "lesedi@example.com",
+  });
+
+  console.log("Test 2 (should fail at least two):");
+  validateResetForm({
+    newPassword: "short",
+    confirmPassword: "shorT", // capital T, so it doesn't match
+    currentEmail: "lesedi@example.com",
+    confirmEmail: "lesedi@exmaple.com", // typo in the domain
+  });
