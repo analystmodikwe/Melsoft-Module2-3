@@ -120,3 +120,23 @@ console.log("parseInt(null):", parseInt(null), typeof parseInt(null)); // NaN nu
 console.log("parseFloat(null):", parseFloat(null), typeof parseFloat(null)); // NaN number
 console.log("Boolean(null):", Boolean(null), typeof Boolean(null)); // false boolean
 console.log("String(null):", String(null), typeof String(null)); // "null" string
+
+// ---- 8. undefined ----
+console.log("--- Starting value: undefined ---");
+console.log("Number(undefined):", Number(undefined), typeof Number(undefined)); // NaN number
+console.log(
+  "parseInt(undefined):",
+  parseInt(undefined),
+  typeof parseInt(undefined),
+); // NaN number
+console.log(
+  "parseFloat(undefined):",
+  parseFloat(undefined),
+  typeof parseFloat(undefined),
+); // NaN number
+console.log(
+  "Boolean(undefined):",
+  Boolean(undefined),
+  typeof Boolean(undefined),
+); // false boolean
+console.log("String(undefined):", String(undefined), typeof String(undefined)); // "undefined" string
