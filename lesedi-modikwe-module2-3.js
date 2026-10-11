@@ -407,10 +407,11 @@ validateResetForm({
   currentEmail: "lesedi@example.com",
   confirmEmail: "lesedi@exmaple.com", // typo in the domain
 });
- /*
-   * I used === (strict equality). For passwords this matters because the
-   * match has to be EXACT. With == JavaScript would quietly convert types, so
-   * a number 12345678 and the string "12345678" would count as "matching"
-   * even though they aren't the same value. A security check shouldn't be
-   * guessing what I meant, it should be strict.
-   */
+/*
+ * I used === (strict equality). For passwords this matters because the
+ * match has to be EXACT. With == JavaScript would quietly convert types, so
+ * a number 12345678 and the string "12345678" would count as "matching"
+ * even though they aren't the same value. A security check shouldn't be
+ * guessing what I meant, it should be strict.
+ */
+
