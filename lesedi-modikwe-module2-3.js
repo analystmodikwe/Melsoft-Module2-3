@@ -112,3 +112,11 @@ console.log("parseInt(0):", parseInt(0), typeof parseInt(0)); // 0 number (0 get
 console.log("parseFloat(0):", parseFloat(0), typeof parseFloat(0)); // 0 number
 console.log("Boolean(0):", Boolean(0), typeof Boolean(0)); // false boolean (0 is falsy)
 console.log("String(0):", String(0), typeof String(0)); // "0" string
+
+// ---- 7. null ----
+console.log("--- Starting value: null ---");
+console.log("Number(null):", Number(null), typeof Number(null)); // 0 number (null becomes 0, careful!)
+console.log("parseInt(null):", parseInt(null), typeof parseInt(null)); // NaN number (null becomes the text "null", which isn't a number)
+console.log("parseFloat(null):", parseFloat(null), typeof parseFloat(null)); // NaN number
+console.log("Boolean(null):", Boolean(null), typeof Boolean(null)); // false boolean
+console.log("String(null):", String(null), typeof String(null)); // "null" string
