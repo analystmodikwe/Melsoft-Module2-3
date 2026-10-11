@@ -191,3 +191,100 @@ console.log("String(undefined):", String(undefined), typeof String(undefined)); 
    *    (or worse, an empty "age" field becomes age 0). I need to check for the
    *    empty string BEFORE converting.
    */
+
+//   challenge 3
+console.log("\n===== CHALLENGE 3 =====");
+
+  // 1. ARITHMETIC (with modulo)
+  // Works out the monthly net salary: take off 25% tax, 1% UIF and the
+  // fixed medical aid. The % at the end tells me how much is left over
+  // after the last full R1,000 (handy if payroll rounds down to thousands).
+  const grossSalary = 45000;
+  const tax = grossSalary * 0.25;
+  const uif = grossSalary * 0.01;
+  const medicalAid = 2500;
+  const netSalary = grossSalary - tax - uif - medicalAid;
+  const leftoverAfterThousands = netSalary % 1000;
+  console.log("1. Net salary:", netSalary, "| left after last R1000:", leftoverAfterThousands);
+
+  // 2. ASSIGNMENT (compound operators)
+  // Cart starts at 0. += adds each item, *= 0.9 takes 10% off,
+  // then *= 1.15 adds 15% VAT.
+  let cart = 0;
+  cart += 150;
+  cart += 85;
+  cart += 220;
+  cart *= 0.9;
+  cart *= 1.15;
+  // fun fact: the exact answer is 470.925, but toFixed gives 470.92 because
+  // of floating-point (I come back to this in Challenge 9)
+  console.log("2. Cart total:", cart.toFixed(2));
+
+  // 3. COMPARISON
+  // Signup validation: 18+, password at least 8 characters, and the
+  // confirmed email must match EXACTLY (=== so the type has to match too).
+  const signupAge = 19;
+  const signupPassword = "mypassw0rd";
+  const typedEmail = "thabo@example.com";
+  const confirmedEmail = "thabo@example.com";
+  const ageOk = signupAge >= 18;
+  const passwordOk = signupPassword.length >= 8;
+  const emailsMatch = typedEmail === confirmedEmail;
+  console.log("3. Signup valid?", ageOk && passwordOk && emailsMatch);
+
+  // 4. LOGICAL
+  // Premium dashboard: (logged in AND verified) OR admin. The brackets make it
+  // obvious which part belongs together.
+  const isLoggedIn = true;
+  const emailVerified = false;
+  const isAdmin = true;
+  const canSeePremium = (isLoggedIn && emailVerified) || isAdmin;
+  console.log("4. Can see premium dashboard?", canSeePremium);
+
+  // 5. UNARY
+  // Unary + turns the string from the form into a number. ! flips the dark mode flag.
+  const ageFromForm = "25";
+  const ageNumber = +ageFromForm;
+  let isDarkMode = false;
+  isDarkMode = !isDarkMode;
+  console.log("5. Age as number:", ageNumber, typeof ageNumber, "| dark mode:", isDarkMode);
+
+  // 6. TERNARY
+  // Badge text: premium -> 'Premium Member', trial -> 'Trial Member', else 'Free Member'.
+  const membershipType = "trial";
+  const badge =
+    membershipType === "premium" ? "Premium Member" :
+    membershipType === "trial" ? "Trial Member" :
+    "Free Member";
+  console.log("6. Badge:", badge);
+
+  // 7. STRING CONCATENATION (+ and template literal)
+  const firstName = "Thabo";
+  const lastName = "Nkosi";
+  const personAge = 28;
+  const greetingPlus = "Welcome back " + firstName + " " + lastName + ", you are " + personAge + " years old.";
+  const greetingTemplate = `Welcome back ${firstName} ${lastName}, you are ${personAge} years old.`;
+  console.log("7a.", greetingPlus);
+  console.log("7b.", greetingTemplate);
+  // The template literal is better. With + it's easy to forget a space or a
+  // quote, and the line is hard to read. With backticks it reads like the real sentence.
+
+  /*
+   * Q1. Prefix (++x) vs postfix (x++)
+   *   let x = 5; console.log(x++, x);  // prints 5 6  (uses 5 first, THEN adds 1)
+   *   let y = 5; console.log(++y, y);  // prints 6 6  (adds 1 FIRST, then uses it)
+   *
+   * Q2. Three real uses of modulo
+   *   - even/odd check: n % 2 === 0
+   *   - wrapping around, e.g. an image carousel: nextIndex = (current + 1) % images.length
+   *   - converting seconds to a clock: seconds % 60 gives the leftover seconds
+   *     after the whole minutes are taken out (also good for "every 3rd row" striping)
+   *
+   * Q3. Nested ternaries
+   *   A flat chain like my badge example (one condition per line, always going
+   *   to the "else" side) is fine and readable. I would NOT use one when
+   *   conditions are nested inside the "true" branch, when each branch has long
+   *   logic, or when other people will need to debug it. 
+   */
+  { let x = 5; console.log("prefix/postfix demo:", x++, x); }
+  { let y = 5; console.log("prefix/postfix demo:", ++y, y); }
