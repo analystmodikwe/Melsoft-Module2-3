@@ -167,3 +167,27 @@ console.log("String(undefined):", String(undefined), typeof String(undefined)); 
   show("[] + []", [] + []);
   // 12. prediction "12" string. [1] becomes "1", [2] becomes "2", then they join
   show("[1] + [2]", [1] + [2]);
+
+// Part C - the three questions --------------------------------------
+  /*
+   * 1. Number('42abc') vs parseInt('42abc')
+   *    Number('42abc') returns NaN, because Number() is strict: the WHOLE string
+   *    must be a valid number. parseInt('42abc') returns 42, because parseInt
+   *    reads from the left and just stops at the first character that doesn't
+   *    fit. So parseInt is forgiving and Number is strict.
+   *
+   * 2. parseFloat vs parseInt in real code
+   *    Any time the value can have decimals, like prices. If a form sends
+   *    "19.99" and I use parseInt I get 19, so I silently lose 99 cents per
+   *    item. On a store doing thousands of orders, that is real money gone
+   *    (and the books won't balance). Same for interest rates like "7.5" turning
+   *    into 7.
+   *
+   * 3. Number('') returns 0, not NaN.
+   *    This is a classic bug because an empty form field is "" and people check
+   *    Number.isNaN() to see if the input is valid. It passes, because 0 is a
+   *    real number. Example: an "Amount to transfer" field left blank becomes
+   *    R0, the validation says fine, and the app submits an empty transfer
+   *    (or worse, an empty "age" field becomes age 0). I need to check for the
+   *    empty string BEFORE converting.
+   */
