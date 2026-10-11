@@ -859,3 +859,137 @@ console.log("\n===== CHALLENGE 8 =====");
   console.log("Q3 demo -> WRITE & DELETE:", WRITE & DELETE);   // 0
   console.log("Q3 demo -> WRITE && DELETE:", WRITE && DELETE); // 4
 }
+
+// Challenge 9
+
+console.log("\n===== CHALLENGE 9 =====");
+
+
+  const gross = 45000;
+  const paye = gross * 0.25;                  // 25% of gross
+  const uIf = Math.min(gross * 0.01, 177.12); // 1% but capped at R177.12 (Math.min picks the smaller)
+  const medicalAids = 2500;                    // fixed amount
+  const pension = gross * 0.075;              // 7.5% of gross
+  const totalDeductions = paye + uif + medicalAid + pension;
+  const net = gross - totalDeductions;
+
+  console.log("  Gross:            R " + gross.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  PAYE (25%):       R " + paye.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  UIF (1%, capped): R " + uif.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  Medical aid:      R " + medicalAids.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  Pension (7.5%):   R " + pension.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  Total deductions: R " + totalDeductions.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  Net salary:       R " + net.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+  // Now the same thing, but the salary arrives from a form as a STRING
+  console.log("Scenario 1b - input from a form (a string):");
+
+  const grossSalaryInput = "45000";
+  // convert the text to a number first
+  const grossFromForm = Number(grossSalaryInput);
+
+  // validate: not blank (because Number("") is 0), not NaN, and above 0
+  if (grossSalaryInput.trim() !== "" && !Number.isNaN(grossFromForm) && grossFromForm > 0) {
+    const payeForm = grossFromForm * 0.25;
+    const uifForm = Math.min(grossFromForm * 0.01, 177.12);
+    const medicalAidForm = 2500;
+    const pensionForm = grossFromForm * 0.075;
+    const totalDeductionsForm = payeForm + uifForm + medicalAidForm + pensionForm;
+    const netForm = grossFromForm - totalDeductionsForm;
+
+    console.log("  Gross:            R " + grossFromForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    console.log("  PAYE (25%):       R " + payeForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    console.log("  UIF (1%, capped): R " + uifForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    console.log("  Medical aid:      R " + medicalAidForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    console.log("  Pension (7.5%):   R " + pensionForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    console.log("  Total deductions: R " + totalDeductionsForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    console.log("  Net salary:       R " + netForm.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  } else {
+    console.log("  Invalid salary, please enter a positive number");
+  }
+
+  // ---------------------------------------------------------------
+  // Scenario 2 - Compound interest savings
+  // ---------------------------------------------------------------
+  console.log("\nScenario 2 - Savings:");
+
+  const principal = 25000;   // starting deposit
+  const rate = 0.075;        // 7.5% written as a decimal
+  const timesPerYear = 12;   // compounded monthly
+  const years = 3;
+
+  // formula: P * (1 + r/n) ^ (n*t)
+  const finalBalance = principal * (1 + rate / timesPerYear) ** (timesPerYear * years);
+  const interestEarned = finalBalance - principal;
+  // effective annual rate: what 7.5% really grows to in one year after monthly compounding
+  const effectiveRate = ((1 + rate / timesPerYear) ** timesPerYear - 1) * 100;
+
+  console.log("  Final balance:   R " + finalBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  Interest earned: R " + interestEarned.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  Effective annual rate: " + effectiveRate.toFixed(2) + "%");
+
+  // Fee tests: each balance gets ONE ternary chain, then yearly impact = fee * 12.
+  // Written out four times (no loop).
+
+  // Balance R500
+  const balance1 = 500;
+  const fee1 = balance1 >= 25000 ? 0 : balance1 >= 5000 ? 75 : balance1 >= 1000 ? 50 : 25;
+  console.log("  Balance R " + balance1.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " -> monthly fee R " + fee1.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " | yearly R " + (fee1 * 12).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+  // Balance R1,500
+  const balance2 = 1500;
+  const fee2 = balance2 >= 25000 ? 0 : balance2 >= 5000 ? 75 : balance2 >= 1000 ? 50 : 25;
+  console.log("  Balance R " + balance2.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " -> monthly fee R " + fee2.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " | yearly R " + (fee2 * 12).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+  // Balance R10,000
+  const balance3 = 10000;
+  const fee3 = balance3 >= 25000 ? 0 : balance3 >= 5000 ? 75 : balance3 >= 1000 ? 50 : 25;
+  console.log("  Balance R " + balance3.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " -> monthly fee R " + fee3.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " | yearly R " + (fee3 * 12).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+  // Balance R50,000 (fee is waived)
+  const balance4 = 50000;
+  const fee4 = balance4 >= 25000 ? 0 : balance4 >= 5000 ? 75 : balance4 >= 1000 ? 50 : 25;
+  console.log("  Balance R " + balance4.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " -> monthly fee R " + fee4.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) +
+    " | yearly R " + (fee4 * 12).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+  // ---------------------------------------------------------------
+  // Scenario 3 - Multi-currency transfer
+  // ---------------------------------------------------------------
+  console.log("\nScenario 3 - Transfer to the US:");
+
+  const zarAmount = 15750.33;
+  const exchangeRate = 18.42;                    // R18.42 = $1
+  const commission = zarAmount * 0.025;          // 2.5% on the ZAR amount
+  const afterCommission = zarAmount - commission;
+  const usdReceived = afterCommission / exchangeRate; // convert what's left into dollars
+
+  console.log("  Commission:       R " + commission.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  After commission: R " + afterCommission.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  console.log("  USD received:     $" + usdReceived.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+  /*
+   * FLOATING-POINT ANSWER
+   * Where did precision cause a problem? Anywhere I multiplied by decimals
+   * (the 7.5% pension, the 2.5% commission, the compound interest power).
+   * JavaScript stores numbers as binary floating point, so numbers like 0.1
+   * can't be stored exactly. The classic example is 0.1 + 0.2, which gives
+   * 0.30000000000000004 instead of 0.3, and tiny errors like that sneak into
+   * money maths. I handled it by only rounding for DISPLAY (the 2 decimal
+   * places in the formatting) and keeping the full precision in the
+   * calculation until the very end.
+   *
+   * How would a real bank do it? They never store money as floats. They store
+   * the amount as a whole number of the smallest unit (cents), e.g. R15,750.33
+   * is stored as the integer 1575033, or they use a decimal type built for
+   * money (like DECIMAL in SQL). Integers are exact, so there is no
+   * 0.30000000000000004 surprise, and they convert to Rands only when showing it.
+   */
+  console.log("\n0.1 + 0.2 =", 0.1 + 0.2);
+  console.log("in cents: (10 + 20) / 100 =", (10 + 20) / 100);
