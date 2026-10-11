@@ -89,5 +89,19 @@ console.log("\n===== CHALLENGE 2 =====");
   console.log('Boolean("hello"):', Boolean("hello"), typeof Boolean("hello"));        // true boolean (any non-empty string is truthy)
   console.log('String("hello"):', String("hello"), typeof String("hello"));           // "hello" string
 
+// ---- 5. "" (empty string) ----
+  console.log("--- Starting value: \"\" (empty string) ---");
+  console.log('Number(""):', Number(""), typeof Number(""));           // 0 number (the sneaky one, not NaN!)
+  console.log('parseInt(""):', parseInt(""), typeof parseInt(""));     // NaN number (nothing to read)
+  console.log('parseFloat(""):', parseFloat(""), typeof parseFloat("")); // NaN number
+  console.log('Boolean(""):', Boolean(""), typeof Boolean(""));        // false boolean (empty string is falsy)
+  console.log('String(""):', String(""), typeof String(""));           // "" string (prints as a blank)
+
+
+
+
+
+
+
 
 
