@@ -993,3 +993,84 @@ console.log("\n===== CHALLENGE 9 =====");
    */
   console.log("\n0.1 + 0.2 =", 0.1 + 0.2);
   console.log("in cents: (10 + 20) / 100 =", (10 + 20) / 100);
+
+
+  /*
+ * BUGS I FOUND
+ *
+ * 1. var item1Price = "199.99";
+ *    The price is a string, so + will join text instead of adding numbers.
+ * 2. var item2Price = "49.50";
+ *    Same problem, a string price. Prices should be numbers.
+ * 3. var quantity = "2";
+ *    Quantity is a string. It happens to work with * but it's an accident
+ *    waiting to happen the first time someone uses + with it.
+ * 4. var subtotal = item1Price + item2Price + item3Price * quantity;
+ *    Two bugs on one line: + with strings does concatenation, giving
+ *    "199.9949.50250" instead of a sum.
+ * 5. (same line) Precedence: * runs first, so quantity only multiplies
+ *    item3Price. The other two items get counted once, which is probably not intended.
+ * 6. var discountAmount = subtotal * discount;
+ *    subtotal is that broken string, so * turns it into NaN and the NaN
+ *    spreads through discountAmount, afterDiscount, vat and total.
+ * 7. var discount = discountCode == "SAVE10" ? 0.1 : 0;
+ *    Should use === so there is no hidden type coercion in the comparison.
+ * 8. var isLoggedIn = "true";
+ *    A string instead of a real boolean. Any non-empty string is truthy, so
+ *    "false" would ALSO count as logged in. That's the truthy string trap.
+ * 9. var canCheckout = isLoggedIn && customerAge > 18;
+ *    Because isLoggedIn is a truthy string, the check passes without really
+ *    verifying anything.
+ * 10. (same line) customerAge > 18 when age is null: null becomes 0 in the
+ *     comparison, so it quietly gives false without telling us the age is
+ *     simply unknown.
+ * 11. (same line) > 18 excludes someone who is exactly 18. If the rule is
+ *     "must be an adult" it should be >= 18 (boundary bug).
+ * 12. var customerAge = null;
+ *     typeof null is 'object', so a typeof check wouldn't catch it. The
+ *     missing age needs a proper check (=== null or ??), not a loose guess.
+ * 13. var seniorDiscount = customerAge >= 60 ? total * 0.05 : null;
+ *     The "no discount" case returns null instead of 0.
+ * 14. var finalTotal = total - seniorDiscount;
+ *     null in maths silently becomes 0, which hides the problem instead of
+ *     showing it.
+ * 15. console.log("Total: R" + finalTotal.toFixed(2));
+ *     With the NaN chain this prints "Total: RNaN". It never crashes, it just
+ *     prints rubbish, and there is no NaN check anywhere.
+ * 16. Everything uses var. let/const would stop accidental reassigning and
+ *     give block scope.
+ */
+
+// CORRECTED VERSION (wrapped in a block so the names don't clash with other challenges)
+{
+  const item1Price = 199.99;   // real numbers now
+  const item2Price = 49.5;
+  const item3Price = 125;
+  const quantity = Number("2"); // convert the text once, up front
+  const discountCode = "SAVE10";
+  const isLoggedIn = true;     // a real boolean
+  const customerAge = null;    // age not provided yet
+
+  // add the items FIRST, then multiply the group by quantity (brackets fix the precedence)
+  const subtotal = (item1Price + item2Price + item3Price) * quantity;
+  console.log("Subtotal:", subtotal.toFixed(2));
+
+  const discount = discountCode === "SAVE10" ? 0.1 : 0;
+  const discountAmount = subtotal * discount;
+  const afterDiscount = subtotal - discountAmount;
+  const vat = afterDiscount * 0.15;
+  const total = afterDiscount + vat;
+
+  // ?? gives unknown age a safe default of 0, and >= 18 includes people who are 18.
+  // The age must be known AND 18+, and the user must be logged in.
+  const age = customerAge ?? 0;
+  const canCheckout = isLoggedIn === true && customerAge !== null && age >= 18;
+  console.log("Can checkout?", canCheckout, canCheckout ? "" : "(age missing or under 18)");
+
+  // 0 instead of null, so the maths stays honest
+  const seniorDiscount = age >= 60 ? total * 0.05 : 0;
+  const finalTotal = total - seniorDiscount;
+
+  // last safety net: never print a NaN total
+  console.log(Number.isNaN(finalTotal) ? "Something went wrong with the total" : "Total: R" + finalTotal.toFixed(2));
+}
