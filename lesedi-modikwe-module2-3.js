@@ -752,6 +752,6 @@ const items = ["a", "b", "c", "d"];
 items.splice(1, 1);                      // removes 1 item at position 1 ("b")
 console.log("splice result:", items);    // [ 'a', 'c', 'd' ]
 
-const items2 = ["a", "b", "c", "d"];
-const filtered = items2.filter((item, index) => index !== 1); // keeps all except position 1
-console.log("filter result:", filtered); // [ 'a', 'c', 'd' ]
+ const fixedArr = [1, 2, 3, 4];
+  fixedArr.splice(1, 1);
+  console.log("After splice:", fixedArr, "| length:", fixedArr.length);
