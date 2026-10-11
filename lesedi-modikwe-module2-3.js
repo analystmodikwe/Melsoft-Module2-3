@@ -104,3 +104,11 @@ console.log('parseInt(""):', parseInt(""), typeof parseInt("")); // NaN number (
 console.log('parseFloat(""):', parseFloat(""), typeof parseFloat("")); // NaN number
 console.log('Boolean(""):', Boolean(""), typeof Boolean("")); // false boolean (empty string is falsy)
 console.log('String(""):', String(""), typeof String("")); // "" string (prints as a blank)
+
+// ---- 6. 0 ----
+console.log("--- Starting value: 0 ---");
+console.log("Number(0):", Number(0), typeof Number(0)); // 0 number
+console.log("parseInt(0):", parseInt(0), typeof parseInt(0)); // 0 number (0 gets turned into "0" first)
+console.log("parseFloat(0):", parseFloat(0), typeof parseFloat(0)); // 0 number
+console.log("Boolean(0):", Boolean(0), typeof Boolean(0)); // false boolean (0 is falsy)
+console.log("String(0):", String(0), typeof String(0)); // "0" string
