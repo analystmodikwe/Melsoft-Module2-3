@@ -32,3 +32,33 @@ const fullName = "Lesedi Modikwe";
 
   // template literal (string) that uses 3 of the variables above. const, it's just a message
   const intro = `Hi, I'm ${fullName}, I'm ${age} years old and the temperature I like is ${favouriteTemp}°C.`;
+
+//   part B
+console.log("--- typeof on my 10 variables ---");
+  console.log("fullName:", typeof fullName);
+  console.log("age:", typeof age);
+  console.log("enjoysJavaScript:", typeof enjoysJavaScript);
+  console.log("favouriteTemp:", typeof favouriteTemp);
+  console.log("notANumber:", typeof notANumber);
+  console.log("infinityValue:", typeof infinityValue);
+  console.log("biggestSafeInt:", typeof biggestSafeInt);
+  console.log("emptyOnPurpose:", typeof emptyOnPurpose); // surprise: 'object'
+  console.log("notAssignedYet:", typeof notAssignedYet);
+  console.log("intro:", typeof intro);
+  console.log(intro);
+
+    console.log("--- PART B ---");
+  // prediction: 'object' (I know this one is a famous bug)
+  console.log("typeof null:", typeof null);
+  // prediction: 'number' (weird but I read it's true)
+  console.log("typeof NaN:", typeof NaN);
+  // prediction: 'undefined'
+  console.log("typeof undefined:", typeof undefined);
+  // prediction: 'string' because the quotes make it text, the 42 inside doesn't matter
+  console.log('typeof "42":', typeof "42");
+  // prediction: 'string'. typeof 42 gives 'number' which is text, so typeof of that is 'string'
+  console.log("typeof (typeof 42):", typeof (typeof 42));
+  // prediction: 'object' (arrays aren't their own type in typeof)
+  console.log("typeof [1, 2, 3]:", typeof [1, 2, 3]);
+  // prediction: 'function' (functions DO get their own answer, even though they're objects too)
+  console.log("typeof function() {}:", typeof function () {});
