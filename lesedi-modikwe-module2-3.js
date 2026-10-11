@@ -169,129 +169,155 @@ console.log("String(undefined):", String(undefined), typeof String(undefined)); 
 //   show("[1] + [2]", [1] + [2]);
 
 // Part C - the three questions --------------------------------------
-  /*
-   * 1. Number('42abc') vs parseInt('42abc')
-   *    Number('42abc') returns NaN, because Number() is strict: the WHOLE string
-   *    must be a valid number. parseInt('42abc') returns 42, because parseInt
-   *    reads from the left and just stops at the first character that doesn't
-   *    fit. So parseInt is forgiving and Number is strict.
-   *
-   * 2. parseFloat vs parseInt in real code
-   *    Any time the value can have decimals, like prices. If a form sends
-   *    "19.99" and I use parseInt I get 19, so I silently lose 99 cents per
-   *    item. On a store doing thousands of orders, that is real money gone
-   *    (and the books won't balance). Same for interest rates like "7.5" turning
-   *    into 7.
-   *
-   * 3. Number('') returns 0, not NaN.
-   *    This is a classic bug because an empty form field is "" and people check
-   *    Number.isNaN() to see if the input is valid. It passes, because 0 is a
-   *    real number. Example: an "Amount to transfer" field left blank becomes
-   *    R0, the validation says fine, and the app submits an empty transfer
-   *    (or worse, an empty "age" field becomes age 0). I need to check for the
-   *    empty string BEFORE converting.
-   */
+/*
+ * 1. Number('42abc') vs parseInt('42abc')
+ *    Number('42abc') returns NaN, because Number() is strict: the WHOLE string
+ *    must be a valid number. parseInt('42abc') returns 42, because parseInt
+ *    reads from the left and just stops at the first character that doesn't
+ *    fit. So parseInt is forgiving and Number is strict.
+ *
+ * 2. parseFloat vs parseInt in real code
+ *    Any time the value can have decimals, like prices. If a form sends
+ *    "19.99" and I use parseInt I get 19, so I silently lose 99 cents per
+ *    item. On a store doing thousands of orders, that is real money gone
+ *    (and the books won't balance). Same for interest rates like "7.5" turning
+ *    into 7.
+ *
+ * 3. Number('') returns 0, not NaN.
+ *    This is a classic bug because an empty form field is "" and people check
+ *    Number.isNaN() to see if the input is valid. It passes, because 0 is a
+ *    real number. Example: an "Amount to transfer" field left blank becomes
+ *    R0, the validation says fine, and the app submits an empty transfer
+ *    (or worse, an empty "age" field becomes age 0). I need to check for the
+ *    empty string BEFORE converting.
+ */
 
 //   challenge 3
 console.log("\n===== CHALLENGE 3 =====");
 
-  // 1. ARITHMETIC (with modulo)
-  // Works out the monthly net salary: take off 25% tax, 1% UIF and the
-  // fixed medical aid. The % at the end tells me how much is left over
-  // after the last full R1,000 (handy if payroll rounds down to thousands).
-  const grossSalary = 45000;
-  const tax = grossSalary * 0.25;
-  const uif = grossSalary * 0.01;
-  const medicalAid = 2500;
-  const netSalary = grossSalary - tax - uif - medicalAid;
-  const leftoverAfterThousands = netSalary % 1000;
-  console.log("1. Net salary:", netSalary, "| left after last R1000:", leftoverAfterThousands);
+// 1. ARITHMETIC (with modulo)
+// Works out the monthly net salary: take off 25% tax, 1% UIF and the
+// fixed medical aid. The % at the end tells me how much is left over
+// after the last full R1,000 (handy if payroll rounds down to thousands).
+const grossSalary = 45000;
+const tax = grossSalary * 0.25;
+const uif = grossSalary * 0.01;
+const medicalAid = 2500;
+const netSalary = grossSalary - tax - uif - medicalAid;
+const leftoverAfterThousands = netSalary % 1000;
+console.log(
+  "1. Net salary:",
+  netSalary,
+  "| left after last R1000:",
+  leftoverAfterThousands,
+);
 
-  // 2. ASSIGNMENT (compound operators)
-  // Cart starts at 0. += adds each item, *= 0.9 takes 10% off,
-  // then *= 1.15 adds 15% VAT.
-  let cart = 0;
-  cart += 150;
-  cart += 85;
-  cart += 220;
-  cart *= 0.9;
-  cart *= 1.15;
-  // fun fact: the exact answer is 470.925, but toFixed gives 470.92 because
-  // of floating-point (I come back to this in Challenge 9)
-  console.log("2. Cart total:", cart.toFixed(2));
+// 2. ASSIGNMENT (compound operators)
+// Cart starts at 0. += adds each item, *= 0.9 takes 10% off,
+// then *= 1.15 adds 15% VAT.
+let cart = 0;
+cart += 150;
+cart += 85;
+cart += 220;
+cart *= 0.9;
+cart *= 1.15;
+// fun fact: the exact answer is 470.925, but toFixed gives 470.92 because
+// of floating-point (I come back to this in Challenge 9)
+console.log("2. Cart total:", cart.toFixed(2));
 
-  // 3. COMPARISON
-  // Signup validation: 18+, password at least 8 characters, and the
-  // confirmed email must match EXACTLY (=== so the type has to match too).
-  const signupAge = 19;
-  const signupPassword = "mypassw0rd";
-  const typedEmail = "thabo@example.com";
-  const confirmedEmail = "thabo@example.com";
-  const ageOk = signupAge >= 18;
-  const passwordOk = signupPassword.length >= 8;
-  const emailsMatch = typedEmail === confirmedEmail;
-  console.log("3. Signup valid?", ageOk && passwordOk && emailsMatch);
+// 3. COMPARISON
+// Signup validation: 18+, password at least 8 characters, and the
+// confirmed email must match EXACTLY (=== so the type has to match too).
+const signupAge = 19;
+const signupPassword = "mypassw0rd";
+const typedEmail = "thabo@example.com";
+const confirmedEmail = "thabo@example.com";
+const ageOk = signupAge >= 18;
+const passwordOk = signupPassword.length >= 8;
+const emailsMatch = typedEmail === confirmedEmail;
+console.log("3. Signup valid?", ageOk && passwordOk && emailsMatch);
 
-  // 4. LOGICAL
-  // Premium dashboard: (logged in AND verified) OR admin. The brackets make it
-  // obvious which part belongs together.
-  const isLoggedIn = true;
-  const emailVerified = false;
-  const isAdmin = true;
-  const canSeePremium = (isLoggedIn && emailVerified) || isAdmin;
-  console.log("4. Can see premium dashboard?", canSeePremium);
+// 4. LOGICAL
+// Premium dashboard: (logged in AND verified) OR admin. The brackets make it
+// obvious which part belongs together.
+const isLoggedIn = true;
+const emailVerified = false;
+const isAdmin = true;
+const canSeePremium = (isLoggedIn && emailVerified) || isAdmin;
+console.log("4. Can see premium dashboard?", canSeePremium);
 
-  // 5. UNARY
-  // Unary + turns the string from the form into a number. ! flips the dark mode flag.
-  const ageFromForm = "25";
-  const ageNumber = +ageFromForm;
-  let isDarkMode = false;
-  isDarkMode = !isDarkMode;
-  console.log("5. Age as number:", ageNumber, typeof ageNumber, "| dark mode:", isDarkMode);
+// 5. UNARY
+// Unary + turns the string from the form into a number. ! flips the dark mode flag.
+const ageFromForm = "25";
+const ageNumber = +ageFromForm;
+let isDarkMode = false;
+isDarkMode = !isDarkMode;
+console.log(
+  "5. Age as number:",
+  ageNumber,
+  typeof ageNumber,
+  "| dark mode:",
+  isDarkMode,
+);
 
-  // 6. TERNARY
-  // Badge text: premium -> 'Premium Member', trial -> 'Trial Member', else 'Free Member'.
-  const membershipType = "trial";
-  const badge =
-    membershipType === "premium" ? "Premium Member" :
-    membershipType === "trial" ? "Trial Member" :
-    "Free Member";
-  console.log("6. Badge:", badge);
+// 6. TERNARY
+// Badge text: premium -> 'Premium Member', trial -> 'Trial Member', else 'Free Member'.
+const membershipType = "trial";
+const badge =
+  membershipType === "premium"
+    ? "Premium Member"
+    : membershipType === "trial"
+      ? "Trial Member"
+      : "Free Member";
+console.log("6. Badge:", badge);
 
-  // 7. STRING CONCATENATION (+ and template literal)
-  const firstName = "Thabo";
-  const lastName = "Nkosi";
-  const personAge = 28;
-  const greetingPlus = "Welcome back " + firstName + " " + lastName + ", you are " + personAge + " years old.";
-  const greetingTemplate = `Welcome back ${firstName} ${lastName}, you are ${personAge} years old.`;
-  console.log("7a.", greetingPlus);
-  console.log("7b.", greetingTemplate);
-  // The template literal is better. With + it's easy to forget a space or a
-  // quote, and the line is hard to read. With backticks it reads like the real sentence.
+// 7. STRING CONCATENATION (+ and template literal)
+const firstName = "Thabo";
+const lastName = "Nkosi";
+const personAge = 28;
+const greetingPlus =
+  "Welcome back " +
+  firstName +
+  " " +
+  lastName +
+  ", you are " +
+  personAge +
+  " years old.";
+const greetingTemplate = `Welcome back ${firstName} ${lastName}, you are ${personAge} years old.`;
+console.log("7a.", greetingPlus);
+console.log("7b.", greetingTemplate);
+// The template literal is better. With + it's easy to forget a space or a
+// quote, and the line is hard to read. With backticks it reads like the real sentence.
 
-  /*
-   * Q1. Prefix (++x) vs postfix (x++)
-   *   let x = 5; console.log(x++, x);  // prints 5 6  (uses 5 first, THEN adds 1)
-   *   let y = 5; console.log(++y, y);  // prints 6 6  (adds 1 FIRST, then uses it)
-   *
-   * Q2. Three real uses of modulo
-   *   - even/odd check: n % 2 === 0
-   *   - wrapping around, e.g. an image carousel: nextIndex = (current + 1) % images.length
-   *   - converting seconds to a clock: seconds % 60 gives the leftover seconds
-   *     after the whole minutes are taken out (also good for "every 3rd row" striping)
-   *
-   * Q3. Nested ternaries
-   *   A flat chain like my badge example (one condition per line, always going
-   *   to the "else" side) is fine and readable. I would NOT use one when
-   *   conditions are nested inside the "true" branch, when each branch has long
-   *   logic, or when other people will need to debug it. 
-   */
-  { let x = 5; console.log("prefix/postfix demo:", x++, x); }
-  { let y = 5; console.log("prefix/postfix demo:", ++y, y); }
+/*
+ * Q1. Prefix (++x) vs postfix (x++)
+ *   let x = 5; console.log(x++, x);  // prints 5 6  (uses 5 first, THEN adds 1)
+ *   let y = 5; console.log(++y, y);  // prints 6 6  (adds 1 FIRST, then uses it)
+ *
+ * Q2. Three real uses of modulo
+ *   - even/odd check: n % 2 === 0
+ *   - wrapping around, e.g. an image carousel: nextIndex = (current + 1) % images.length
+ *   - converting seconds to a clock: seconds % 60 gives the leftover seconds
+ *     after the whole minutes are taken out (also good for "every 3rd row" striping)
+ *
+ * Q3. Nested ternaries
+ *   A flat chain like my badge example (one condition per line, always going
+ *   to the "else" side) is fine and readable. I would NOT use one when
+ *   conditions are nested inside the "true" branch, when each branch has long
+ *   logic, or when other people will need to debug it.
+ */
+{
+  let x = 5;
+  console.log("prefix/postfix demo:", x++, x);
+}
+{
+  let y = 5;
+  console.log("prefix/postfix demo:", ++y, y);
+}
 
 // Challenge 4
-console.log("n======= Challenge 4 ======")
-console.log("n======= Part A ======")
+console.log("n======= Challenge 4 ======");
+console.log("n======= Part A ======");
 //1. true because its equality, their data types are not checked and false defaults to 0
 console.log(0 == false);
 
@@ -307,77 +333,77 @@ console.log("" === 0);
 // 5 true because the value is is the same even though the data type is different == does not not check data type
 console.log("0" == 0);
 
-// 6 false because the value is the same but  the data type is different and === expects value and data type to be the same 
+// 6 false because the value is the same but  the data type is different and === expects value and data type to be the same
 console.log("0" === 0);
 
 // 7 true because null is just zero and undefined has no value so its also zero even though they are different types == will read them as 0
 console.log(null == undefined);
 
-// 8 false because null and undefined are off different types 
+// 8 false because null and undefined are off different types
 console.log(null === undefined);
 
 // 9 true, because null is 0 == will read both as zero
-console.log(`${9}, ${null == 0}`) // i was wrong here, the answer is false, because javascript doest convert null into a number when using ==
+console.log(`${9}, ${null == 0}`); // i was wrong here, the answer is false, because javascript doest convert null into a number when using ==
 
 // 10 true because i am using relational operator and it turns null to a number
-console.log(`${10}, ${null >= 0}`)
+console.log(`${10}, ${null >= 0}`);
 
 // 11 false because i am using relational operator and it turns null to a number so it will be zero and zero is not greater than zero but equals to
-console.log(`${11}, ${null > 0}`)
+console.log(`${11}, ${null > 0}`);
 
 // 12 false because NaN cannnot be equal to itself it represents an invalid or undefined numeric result.
-console.log(`${12}, ${NaN == NaN}`)
+console.log(`${12}, ${NaN == NaN}`);
 
 // 13 false because NaN cannnot be equal to itself it represents an invalid or undefined numeric result.
-console.log(`${13}, ${NaN === NaN}`)
+console.log(`${13}, ${NaN === NaN}`);
 
-// 14 true because object uses different comparison rule from == and === which makes two NaN values to be the same 
-console.log(`${14}, ${Object.is(NaN, NaN)}`)
+// 14 true because object uses different comparison rule from == and === which makes two NaN values to be the same
+console.log(`${14}, ${Object.is(NaN, NaN)}`);
 
-// 15 false because positive zero cannot be = to negative zero 
-console.log(`${15}, ${+0 === -0}`) // i was wrong here, the answer is true because when using ===, +0 and -0 are considerd equal
+// 15 false because positive zero cannot be = to negative zero
+console.log(`${15}, ${+0 === -0}`); // i was wrong here, the answer is true because when using ===, +0 and -0 are considerd equal
 
-// 16 false because +0 and -0 are not the same 
-console.log(`${16}, ${Object.is(+0, -0)}`)
+// 16 false because +0 and -0 are not the same
+console.log(`${16}, ${Object.is(+0, -0)}`);
 
-// 17 true because the values are the same 
-console.log(`${17}, ${[1,2,3] == "1,2,3"}`)
+// 17 true because the values are the same
+console.log(`${17}, ${[1, 2, 3] == "1,2,3"}`);
 
-// 18 true because an empty array will be 0 which is false 
-console.log(`${18}, ${[] == false}`)
+// 18 true because an empty array will be 0 which is false
+console.log(`${18}, ${[] == false}`);
 
-// 19 true because an empty array will be 0 
-console.log(`${19}, ${ [] == 0}`)
+// 19 true because an empty array will be 0
+console.log(`${19}, ${[] == 0}`);
 
 //20  true because the value in an array is zero and false is also 0
-console.log(`${20}, ${[0] == false}`)
+console.log(`${20}, ${[0] == false}`);
 
- // Part B - password reset validator ---------------------------------
-  const validateResetForm = (form) => {
-    // === on everything, so type must match too
-    const passwordsMatch = form.newPassword === form.confirmPassword;
-    const emailsMatch = form.currentEmail === form.confirmEmail;
-    const notSameAsEmail = form.newPassword !== form.currentEmail;
-    const longEnough = form.newPassword.length >= 8;
+// Part B - password reset validator ---------------------------------
+const validateResetForm = (form) => {
+  // === on everything, so type must match too
+  const passwordsMatch = form.newPassword === form.confirmPassword;
+  const emailsMatch = form.currentEmail === form.confirmEmail;
+  const notSameAsEmail = form.newPassword !== form.currentEmail;
+  const longEnough = form.newPassword.length >= 8;
 
-    console.log("  Passwords match:", passwordsMatch ? "PASS" : "FAIL");
-    console.log("  Emails match:", emailsMatch ? "PASS" : "FAIL");
-    console.log("  Password is not the email:", notSameAsEmail ? "PASS" : "FAIL");
-    console.log("  Password at least 8 chars:", longEnough ? "PASS" : "FAIL");
-  };
+  console.log("  Passwords match:", passwordsMatch ? "PASS" : "FAIL");
+  console.log("  Emails match:", emailsMatch ? "PASS" : "FAIL");
+  console.log("  Password is not the email:", notSameAsEmail ? "PASS" : "FAIL");
+  console.log("  Password at least 8 chars:", longEnough ? "PASS" : "FAIL");
+};
 
-  console.log("\nTest 1 (should pass all four):");
-  validateResetForm({
-    newPassword: "Str0ng!Pass99",
-    confirmPassword: "Str0ng!Pass99",
-    currentEmail: "lesedi@example.com",
-    confirmEmail: "lesedi@example.com",
-  });
+console.log("\nTest 1 (should pass all four):");
+validateResetForm({
+  newPassword: "Str0ng!Pass99",
+  confirmPassword: "Str0ng!Pass99",
+  currentEmail: "lesedi@example.com",
+  confirmEmail: "lesedi@example.com",
+});
 
-  console.log("Test 2 (should fail at least two):");
-  validateResetForm({
-    newPassword: "short",
-    confirmPassword: "shorT", // capital T, so it doesn't match
-    currentEmail: "lesedi@example.com",
-    confirmEmail: "lesedi@exmaple.com", // typo in the domain
-  });
+console.log("Test 2 (should fail at least two):");
+validateResetForm({
+  newPassword: "short",
+  confirmPassword: "shorT", // capital T, so it doesn't match
+  currentEmail: "lesedi@example.com",
+  confirmEmail: "lesedi@exmaple.com", // typo in the domain
+});
