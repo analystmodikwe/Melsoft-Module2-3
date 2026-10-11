@@ -81,7 +81,13 @@ console.log("\n===== CHALLENGE 2 =====");
   console.log('Boolean("3.14"):', Boolean("3.14"), typeof Boolean("3.14"));        // true boolean
   console.log('String("3.14"):', String("3.14"), typeof String("3.14"));           // "3.14" string
 
-  
+   // ---- 3. "hello" ----
+  console.log("--- Starting value: \"hello\" ---");
+  console.log('Number("hello"):', Number("hello"), typeof Number("hello"));           // NaN number
+  console.log('parseInt("hello"):', parseInt("hello"), typeof parseInt("hello"));     // NaN number
+  console.log('parseFloat("hello"):', parseFloat("hello"), typeof parseFloat("hello")); // NaN number
+  console.log('Boolean("hello"):', Boolean("hello"), typeof Boolean("hello"));        // true boolean (any non-empty string is truthy)
+  console.log('String("hello"):', String("hello"), typeof String("hello"));           // "hello" string
 
 
 
