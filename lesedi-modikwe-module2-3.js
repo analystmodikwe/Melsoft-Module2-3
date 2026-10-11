@@ -755,3 +755,107 @@ console.log("splice result:", items);    // [ 'a', 'c', 'd' ]
  const fixedArr = [1, 2, 3, 4];
   fixedArr.splice(1, 1);
   console.log("After splice:", fixedArr, "| length:", fixedArr.length);
+
+//   challenge 8
+/* =====================================================================
+   CHALLENGE 8 - Bitwise Permission System
+   ===================================================================== */
+console.log("\n===== CHALLENGE 8 =====");
+{
+  // each permission is ONE bit, so they can be combined without clashing
+  const READ = 1;   // 0001
+  const WRITE = 2;  // 0010
+  const DELETE = 4; // 0100
+  const ADMIN = 8;  // 1000
+
+  // 1. Create a user with READ + WRITE using | (OR).
+  // OR keeps a bit if it is 1 in EITHER number: 0001 | 0010 = 0011
+  let user1 = READ | WRITE;
+  console.log("1. user1 permissions:", user1);                              // 3
+  console.log("   in binary:", user1.toString(2).padStart(4, "0"));         // 0011
+
+  // 2. Create an admin user with ALL permissions.
+  // Chain | to switch on all four bits: 0001 | 0010 | 0100 | 1000 = 1111
+  const adminUser = READ | WRITE | DELETE | ADMIN;
+  console.log("2. admin permissions:", adminUser);                          // 15
+  console.log("   in binary:", adminUser.toString(2).padStart(4, "0"));     // 1111
+
+  // 3. Does user1 have READ? Use & (AND).
+  // AND keeps a bit only if it is 1 in BOTH numbers: 0011 & 0001 = 0001.
+  // If the result is not 0, the user has that permission.
+  const hasRead = user1 & READ;
+  console.log("3. user1 & READ =", hasRead);                                // 1
+  if (hasRead !== 0) {
+    console.log("   Has READ? Yes");
+  } else {
+    console.log("   Has READ? No");
+  }
+
+  // 4. Does user1 have DELETE? 0011 & 0100 = 0000, so the answer is No.
+  const hasDelete = user1 & DELETE;
+  console.log("4. user1 & DELETE =", hasDelete);                            // 0
+  if (hasDelete !== 0) {
+    console.log("   Has DELETE? Yes");
+  } else {
+    console.log("   Has DELETE? No");
+  }
+
+  // 5. Grant DELETE to user1 with |= (compound OR assignment).
+  // user1 |= DELETE is the same as user1 = user1 | DELETE: 0011 | 0100 = 0111
+  user1 |= DELETE;
+  console.log("5. after granting DELETE:", user1);                          // 7
+  console.log("   in binary:", user1.toString(2).padStart(4, "0"));         // 0111
+
+  // 6. Revoke WRITE from user1 (the tricky one).
+  // Step 1: ~WRITE flips every bit of 0010. Looking at just the 4 bits we care
+  //         about, that is 1101 (the bits further left are also flipped, but
+  //         AND with our small number throws those away).
+  // Step 2: user1 & ~WRITE keeps every bit EXCEPT the WRITE bit:
+  //         0111 & 1101 = 0101
+  user1 &= ~WRITE;
+  console.log("6. after revoking WRITE:", user1);                           // 5
+  console.log("   in binary:", user1.toString(2).padStart(4, "0"));         // 0101
+
+  // 7. Toggle ADMIN with XOR (^).
+  // XOR gives 1 only where the bits are DIFFERENT, so the ADMIN bit flips
+  // every time: off -> on -> off.
+  user1 ^= ADMIN; // 0101 ^ 1000 = 1101 (ADMIN switched ON)
+  console.log("7a. after first toggle:", user1);                            // 13
+  console.log("    in binary:", user1.toString(2).padStart(4, "0"));        // 1101
+
+  user1 ^= ADMIN; // 1101 ^ 1000 = 0101 (ADMIN switched back OFF)
+  console.log("7b. after second toggle:", user1);                           // 5
+  console.log("    in binary:", user1.toString(2).padStart(4, "0"));        // 0101
+
+  // 8. Add SUPER_ADMIN as the next power of 2 WITHOUT typing 16.
+  // << shifts every bit one place to the left (which doubles the number):
+  // 1000 << 1 = 10000
+  const SUPER_ADMIN = ADMIN << 1;
+  console.log("8. SUPER_ADMIN:", SUPER_ADMIN);                              // 16
+  console.log("   in binary:", SUPER_ADMIN.toString(2).padStart(5, "0"));   // 10000
+
+  /*
+   * Q1. Why bitwise flags instead of an array like ['read', 'write']?
+   *   1) Storage and speed: the whole set of permissions is ONE small number,
+   *      so it's easy to store in a database column or send around, and the
+   *      checks are super fast bit operations.
+   *   2) Easy combining/checking: giving, removing or testing a permission is
+   *      one operator (|, & ~, &), no looping through arrays or string matching.
+   *
+   * Q2. Downside / when not to use it:
+   *   It's harder to read and debug (what does 13 mean?), JS bitwise operators
+   *   only work on 32-bit integers so you're limited to about 31 flags, and
+   *   if permissions are created dynamically by users (custom roles), an
+   *   array or a database table is much easier to manage.
+   *
+   * Q3. & vs && and | vs ||
+   *   & and | work on the individual BITS of numbers and always evaluate both
+   *   sides. && and || are logical: they work with truthy/falsy and short-circuit.
+   *   Silent bug example: with flags WRITE = 2 and DELETE = 4,
+   *   (WRITE & DELETE) is 0, which is falsy, so "does the user have both?"
+   *   quietly says no, while (WRITE && DELETE) gives 4, which is truthy. They
+   *   look almost the same but give opposite answers and neither throws an error.
+   */
+  console.log("Q3 demo -> WRITE & DELETE:", WRITE & DELETE);   // 0
+  console.log("Q3 demo -> WRITE && DELETE:", WRITE && DELETE); // 4
+}
