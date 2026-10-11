@@ -415,3 +415,45 @@ validateResetForm({
  * guessing what I meant, it should be strict.
  */
 
+//  CHALLENGE 5
+
+console.log("\n===== CHALLENGE 5 =====");
+
+// 1. prediction 13. steps: 3*4=12 first, then 2+12=14, then 14-1=13
+console.log("1.", 2 + 3 * 4 - 1);
+// 2. prediction 15. brackets first: (5) and (3), then 5*3=15
+console.log("2.", (2 + 3) * (4 - 1));
+// 3. prediction 4. same precedence, left to right: 10-4=6, then 6-2=4
+console.log("3.", 10 - 4 - 2);
+// 4. prediction 512. ** goes right to left: 3**2=9 first, then 2**9=512
+console.log("4.", 2 ** (3 ** 2));
+// 5. prediction 3. % and * are equal so left to right: 10%3=1, then 1*2=2, then 2+1=3
+console.log("5.", (10 % 3) * 2 + 1);
+// 6. prediction 5. left to right: 100/4=25, then 25/5=5
+console.log("6.", 100 / 4 / 5);
+// 7. prediction true. maths first: 5+2=7, then comparisons: 7>6 true and 3<4 true, then && gives true
+console.log("7.", 5 + 2 > 6 && 3 < 4);
+// 8. prediction true. && fires before ||: (true&&false)=false, (true&&true)=true, then false||true = true
+console.log("8.", (true && false) || (true && true));
+// 9. prediction false. ! first: !false=true, !!0=false, then true&&false=false
+console.log("9.", !false && !!0);
+// 10. prediction true. 5>3 true, 10<20 true, (2==="2") is false so !(false)=true. (true&&true)||true = true
+console.log("10.", (5 > 3 && 10 < 20) || !(2 === "2"));
+// 11. prediction about 1035. left to right: 1000*1.15, then times 0.9 (could have a tiny float error)
+console.log("11.", 1000 * 1.15 * 0.9);
+// 12. prediction "number1". typeof binds tighter than +, so it's (typeof 5) + 1 = "number" + 1
+console.log("12.", typeof 5 + 1);
+// 13. prediction "number". brackets first: 5+1=6, then typeof 6
+console.log("13.", typeof (5 + 1));
+// 14. prediction "56". * first: 3*2=6, then "5"+6 joins as text
+console.log("14.", "5" + 3 * 2);
+// 15. prediction 4. left to right: "5"-3=2 (number), then 2+2=4
+console.log("15.", "5" - 3 + 2);
+
+/*
+ * When should I add parentheses even if precedence doesn't need them?
+ * Whenever someone reading the line has to stop and think about the order.
+ * The computer doesn't care about extra brackets, but the next developer
+ * (or me in 3 months) does, and mixing && with || or doing money maths are
+ * places where a wrong assumption costs real money. Clear beats clever.
+ */
