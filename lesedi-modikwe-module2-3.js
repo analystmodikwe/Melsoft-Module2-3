@@ -62,3 +62,17 @@ console.log("--- typeof on my 10 variables ---");
   console.log("typeof [1, 2, 3]:", typeof [1, 2, 3]);
   // prediction: 'function' (functions DO get their own answer, even though they're objects too)
   console.log("typeof function() {}:", typeof function () {});
+
+console.log("\n===== CHALLENGE 2 =====");
+
+ // ---- 1. "123" ----
+  console.log("--- Starting value: \"123\" ---");
+  console.log('Number("123"):', Number("123"), typeof Number("123"));           // 123 number
+  console.log('parseInt("123"):', parseInt("123"), typeof parseInt("123"));     // 123 number
+  console.log('parseFloat("123"):', parseFloat("123"), typeof parseFloat("123")); // 123 number
+  console.log('Boolean("123"):', Boolean("123"), typeof Boolean("123"));        // true boolean (non-empty string)
+  console.log('String("123"):', String("123"), typeof String("123"));           // "123" string (already a string)
+
+
+
+
