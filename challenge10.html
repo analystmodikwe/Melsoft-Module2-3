@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge 10 - User Interaction Flow</title>
+</head>
+<body>
+  <h1>Challenge 10 - User Interaction Flow</h1>
+  <p>The dialogs should pop up as soon as the page loads. Refresh the page to run it again.</p>
+
+  <script>
+    // 1. Greet the user with alert()
+    window.alert("Welcome! Let's set up your profile.");
+
+    // 2. Ask for the name. prompt() gives null on Cancel and "" if OK is
+    // clicked with nothing typed. Both are falsy, so || gives me the 'Guest'
+    // default. The ?. keeps .trim() from crashing when the value is null.
+    const nameInput = window.prompt("What is your name?");
+    const userName = nameInput?.trim() || "Guest";
+
+    // 3. Ask for the age. prompt() always gives text (or null), so I convert it.
+    const ageInput = window.prompt("How old are you?");
+    const userAge = Number(ageInput);
+
+    // Number(null) and Number("") both give 0, so the 1-120 range check also catches
+    // those cases. Number.isNaN catches things like "abc".
+    if (Number.isNaN(userAge) || userAge < 1 || userAge > 120) {
+      window.alert("Sorry, that is not a valid age. Please enter a number between 1 and 120.");
+    } else {
+      // 4. Ternary chain for the tier: under 18 Youth, 18-59 Adult, 60+ Senior
+      const tier = userAge < 18 ? "Youth" : userAge < 60 ? "Adult" : "Senior";
+
+      // 5. confirm() returns true for OK and false for Cancel
+      const wantsNewsletter = window.confirm("Do you want to subscribe to our newsletter?");
+
+      // 6. Show the summary in one alert (\n puts each item on its own line)
+      window.alert(
+        `Summary\n` +
+        `Name: ${userName}\n` +
+        `Age: ${userAge}\n` +
+        `Tier: ${tier}\n` +
+        `Newsletter: ${wantsNewsletter ? "Subscribed" : "Not subscribed"}`
+      );
+    }
+
+    /*
+     * INTERVIEW ANSWERS
+     *
+     * 1. What does "blocking" mean, and why is it a problem?
+     *    Blocking means JavaScript stops running completely until the user
+     *    clicks a button on the dialog. Nothing else on the page can run
+     *    while it's open (no animations, no other code). That's a problem for
+     *    modern web apps because it freezes the whole page, it can't be
+     *    styled to match the brand, it looks old-fashioned, and browsers
+     *    sometimes block repeated popups, which makes the experience annoying.
+     *
+     * 2. What would developers use instead?
+     *    Custom modals built with HTML/CSS/JS (or a UI library like Bootstrap
+     *    or a React component library), toast notifications for messages, and
+     *    proper form inputs with validation for collecting data. They don't
+     *    block the page and can be styled and made accessible.
+     *
+     * 3. What does prompt() return on Cancel vs a blank OK?
+     *    Cancel returns null. Clicking OK with an empty field returns an
+     *    empty string (""). They are different values, but both are falsy,
+     *    which is why the || "Guest" default works for both.
+     */
+  </script>
+</body>
+</html>
