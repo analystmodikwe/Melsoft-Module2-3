@@ -459,7 +459,7 @@ console.log("15.", "5" - 3 + 2);
  */
 
 // challenge 6
-section("PART A")
+console.log("PART A")
 let Grade=95 //A
     Grade=82 //B
     Grade=73  //C
@@ -476,3 +476,51 @@ console.log(
     Grade >= 50 ? "E" :
     "F" 
 );
+
+console.log("n==== Part B test 1 ===");
+ // || uses the default when the left side is FALSY (undefined, null, "", 0, false)
+// ?? uses the default ONLY when the left side is null or undefined
+
+let user1 = {}; //an empty object, so every property is undefined
+let displayName1 = user1.displayName || "Guest User"; // undefined is falsy -> "Guest User"
+let theme1 = user1.theme || "light";                  // undefined is falsy -> "light"
+let maxResults1 = user1.maxResults || 10;             // undefined is falsy -> 10
+let lastLogin1 = user1.lastLogin ?? "Never";          // undefined -> "Never"
+let notificationCount1 = user1.notificationCount ?? 0; // undefined -> 0
+
+console.log("Test 1 displayName:", displayName1);           // Guest User
+console.log("Test 1 theme:", theme1);                       // light
+console.log("Test 1 maxResults:", maxResults1);             // 10
+console.log("Test 1 lastLogin:", lastLogin1);               // Never
+console.log("Test 1 notificationCount:", notificationCount1); // 0
+
+console.log("n==== test2 =====")
+//  test 2  notificationCount is 0 and theme is "
+
+let user2 = {
+    displayName: "Lesedi",
+    theme: "",              // empty string is falsy
+    maxResults: 25,
+    lastLogin: "2026-10-05",
+    notificationCount: 0    // zero is falsy, but it is a real value
+};
+
+let displayName2 = user2.displayName || "Guest User";
+let theme2 = user2.theme || "light";                   // "" is falsy -> replaced with "light"
+let maxResults2 = user2.maxResults || 10;
+let lastLogin2 = user2.lastLogin ?? "Never";
+let notificationCount2 = user2.notificationCount ?? 0; // 0 is NOT null/undefined -> stays 0
+
+console.log("Test 2 displayName:", displayName2);           // Lesedi
+console.log("Test 2 theme:", theme2);                       // light
+console.log("Test 2 maxResults:", maxResults2);             // 25
+console.log("Test 2 lastLogin:", lastLogin2);               // 2026-10-05
+console.log("Test 2 notificationCount:", notificationCount2); // 0
+
+// WHY ?? and || behave differently:
+// || treats ANY falsy value as "missing", so theme "" became "light".
+// That is fine for theme, because an empty theme is not useful.
+// ?? only treats null and undefined as "missing", so notificationCount
+// stayed 0. Zero is a valid count (no notifications), and using || here
+// would wrongly replace it with the default.
+
