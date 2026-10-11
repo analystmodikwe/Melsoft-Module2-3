@@ -142,31 +142,31 @@ console.log(
 console.log("String(undefined):", String(undefined), typeof String(undefined)); // "undefined" string
 
 // Part B ----------------------------------------
-  console.log("\n--- Part B ---");
-  // 1. prediction "53" string. + sees a string so it turns 3 into "3" and joins them
-  show('"5" + 3', "5" + 3);
-  // 2. prediction 2 number. minus only works on numbers so "5" becomes 5
-  show('"5" - 3', "5" - 3);
-  // 3. prediction 10 number. * also forces both strings into numbers
-  show('"5" * "2"', "5" * "2");
-  // 4. prediction 2 number. true becomes 1 in maths
-  show("true + 1", true + 1);
-  // 5. prediction "true1" string. a string is involved so + joins text
-  show('true + "1"', true + "1");
-  // 6. prediction 0 number. false -> 0 and null -> 0
-  show("false + null", false + null);
-  // 7. prediction NaN number. null -> 0 but undefined -> NaN, and anything + NaN is NaN
-  show("null + undefined", null + undefined);
-  // 8. prediction Infinity number. JS doesn't crash on divide by zero
-  show("1 / 0", 1 / 0);
-  // 9. prediction NaN number. 0/0 has no meaningful answer
-  show("0 / 0", 0 / 0);
-  // 10. prediction NaN number. "abc" can't become a number so the minus gives NaN
-  show('"abc" - 1', "abc" - 1);
-  // 11. prediction "" (empty string). both arrays become "" and "" + "" is ""
-  show("[] + []", [] + []);
-  // 12. prediction "12" string. [1] becomes "1", [2] becomes "2", then they join
-  show("[1] + [2]", [1] + [2]);
+//   console.log("\n--- Part B ---");
+//   // 1. prediction "53" string. + sees a string so it turns 3 into "3" and joins them
+//   show('"5" + 3', "5" + 3);
+//   // 2. prediction 2 number. minus only works on numbers so "5" becomes 5
+//   show('"5" - 3', "5" - 3);
+//   // 3. prediction 10 number. * also forces both strings into numbers
+//   show('"5" * "2"', "5" * "2");
+//   // 4. prediction 2 number. true becomes 1 in maths
+//   show("true + 1", true + 1);
+//   // 5. prediction "true1" string. a string is involved so + joins text
+//   show('true + "1"', true + "1");
+//   // 6. prediction 0 number. false -> 0 and null -> 0
+//   show("false + null", false + null);
+//   // 7. prediction NaN number. null -> 0 but undefined -> NaN, and anything + NaN is NaN
+//   show("null + undefined", null + undefined);
+//   // 8. prediction Infinity number. JS doesn't crash on divide by zero
+//   show("1 / 0", 1 / 0);
+//   // 9. prediction NaN number. 0/0 has no meaningful answer
+//   show("0 / 0", 0 / 0);
+//   // 10. prediction NaN number. "abc" can't become a number so the minus gives NaN
+//   show('"abc" - 1', "abc" - 1);
+//   // 11. prediction "" (empty string). both arrays become "" and "" + "" is ""
+//   show("[] + []", [] + []);
+//   // 12. prediction "12" string. [1] becomes "1", [2] becomes "2", then they join
+//   show("[1] + [2]", [1] + [2]);
 
 // Part C - the three questions --------------------------------------
   /*
@@ -288,3 +288,64 @@ console.log("\n===== CHALLENGE 3 =====");
    */
   { let x = 5; console.log("prefix/postfix demo:", x++, x); }
   { let y = 5; console.log("prefix/postfix demo:", ++y, y); }
+
+console.log("//n Part A //////")
+//1. true because its equality, their data types are not checked and false defaults to 0
+console.log(0 == false);
+
+// 2 false because its identity it expects each and everything to be equal
+console.log(0 === false);
+
+// 3 true, because its not a number and its an empty string which equates to zero
+console.log("" == 0);
+
+// 4 false, because its not a number and its an empty string which equates to zero but === will check both the value and datatype
+console.log("" === 0);
+
+// 5 true because the value is is the same even though the data type is different == does not not check data type
+console.log("0" == 0);
+
+// 6 false because the value is the same but  the data type is different and === expects value and data type to be the same 
+console.log("0" === 0);
+
+// 7 true because null is just zero and undefined has no value so its also zero even though they are different types == will read them as 0
+console.log(null == undefined);
+
+// 8 false because null and undefined are off different types 
+console.log(null === undefined);
+
+// 9 true, because null is 0 == will read both as zero
+console.log(`${9}, ${null == 0}`) // i was wrong here, the answer is false, because javascript doest convert null into a number when using ==
+
+// 10 true because i am using relational operator and it turns null to a number
+console.log(`${10}, ${null >= 0}`)
+
+// 11 false because i am using relational operator and it turns null to a number so it will be zero and zero is not greater than zero but equals to
+console.log(`${11}, ${null > 0}`)
+
+// 12 false because NaN cannnot be equal to itself it represents an invalid or undefined numeric result.
+console.log(`${12}, ${NaN == NaN}`)
+
+// 13 false because NaN cannnot be equal to itself it represents an invalid or undefined numeric result.
+console.log(`${13}, ${NaN === NaN}`)
+
+// 14 true because object uses different comparison rule from == and === which makes two NaN values to be the same 
+console.log(`${14}, ${Object.is(NaN, NaN)}`)
+
+// 15 false because positive zero cannot be = to negative zero 
+console.log(`${15}, ${+0 === -0}`) // i was wrong here, the answer is true because when using ===, +0 and -0 are considerd equal
+
+// 16 false because +0 and -0 are not the same 
+console.log(`${16}, ${Object.is(+0, -0)}`)
+
+// 17 true because the values are the same 
+console.log(`${17}, ${[1,2,3] == "1,2,3"}`)
+
+// 18 true because an empty array will be 0 which is false 
+console.log(`${18}, ${[] == false}`)
+
+// 19 true because an empty array will be 0 
+console.log(`${19}, ${ [] == 0}`)
+
+//20  true because the value in an array is zero and false is also 0
+console.log(`${20}, ${[0] == false}`)
