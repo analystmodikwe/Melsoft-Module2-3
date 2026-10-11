@@ -73,6 +73,15 @@ console.log("\n===== CHALLENGE 2 =====");
   console.log('Boolean("123"):', Boolean("123"), typeof Boolean("123"));        // true boolean (non-empty string)
   console.log('String("123"):', String("123"), typeof String("123"));           // "123" string (already a string)
 
+  // ---- 2. "3.14" ----
+  console.log("--- Starting value: \"3.14\" ---");
+  console.log('Number("3.14"):', Number("3.14"), typeof Number("3.14"));           // 3.14 number
+  console.log('parseInt("3.14"):', parseInt("3.14"), typeof parseInt("3.14"));     // 3 number (chops off the decimals!)
+  console.log('parseFloat("3.14"):', parseFloat("3.14"), typeof parseFloat("3.14")); // 3.14 number
+  console.log('Boolean("3.14"):', Boolean("3.14"), typeof Boolean("3.14"));        // true boolean
+  console.log('String("3.14"):', String("3.14"), typeof String("3.14"));           // "3.14" string
+
+  
 
 
 
