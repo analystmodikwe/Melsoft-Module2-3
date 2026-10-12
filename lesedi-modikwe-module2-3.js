@@ -1074,3 +1074,64 @@ console.log("\n===== CHALLENGE 9 =====");
   // last safety net: never print a NaN total
   console.log(Number.isNaN(finalTotal) ? "Something went wrong with the total" : "Total: R" + finalTotal.toFixed(2));
 }
+
+// SELF REFLECTION
+
+/*
+ * 1. The most important thing I understood about the type system is that
+ *    JavaScript will quietly change types for me whether I asked or not, and
+ *    it won't warn me. What bit me was "5" + 3. I expected 8 and got "53",
+ *    because + sees a string and switches to joining text. Meanwhile
+ *    "5" - 3 gives 2, so the same two values behave differently depending on
+ *    the operator. Now I convert things on purpose before I use them.
+ *
+ * 2. === is safer because it checks the type as well as the value and never
+ *    converts anything behind my back. == tries to be "helpful" by coercing,
+ *    which leads to results I didn't plan for. For example, 0 == "" is true.
+ *    So if a user leaves a number field empty, a check like
+ *    quantity == 0 would silently treat the blank field as a real zero.
+ *
+ * 3. I'd use ?? when 0, false or '' are real, valid values I want to keep,
+ *    and only null/undefined should trigger the default. Example:
+ *    const count = 0; count || 10 gives 10 (wrong, the user really has 0
+ *    notifications), but count ?? 10 gives 0 (correct). || is fine when
+ *    any "empty" value should fall back, like an empty display name.
+ *
+ * 4. typeof null gives 'object' because of a bug in the very first
+ *    version of JavaScript. Values had a type tag, objects had the tag 0, and
+ *    null was stored as all zeros, so it looked like an object. It was never
+ *    fixed because it would break old websites. To check for null without being
+ *    tricked I use strict equality: value === null.
+ *
+ * 5. A realistic one: a price or quantity coming from a form or URL
+ *    query string is always a string. If I forget to convert and then do
+ *    total = price + shipping, I get "199.9950" instead of 249.99. It may look
+ *    fine in testing with one item, then orders show weird totals, or a
+ *    discount check like quantity > 10 compares a string with a number and
+ *    works "by luck" for most values. It could sit there unnoticed for months
+ *    because nothing crashes.
+ *
+ * 6. 0.1 + 0.2 is not 0.3 because JavaScript stores numbers in binary
+ *    (IEEE 754 floating point), and 0.1 and 0.2 can't be written exactly in
+ *    binary, just like 1/3 can't be written exactly in decimal. So the small
+ *    rounding errors add up to 0.30000000000000004. The production-grade fix
+ *    is to store money as whole numbers of the smallest unit (cents, so
+ *    R15,750.33 is 1575033) or use a proper decimal type, and only convert to
+ *    Rands when showing it to a person.
+ *
+ * 7. & and | work on the individual bits of numbers and always evaluate both
+ *    sides. && and || are logical operators that work with true/false and
+ *    stop early (short-circuit). A silent bug: if (user && user.isAdmin) is
+ *    safe when user is null, but if (user & user.isAdmin) would still try to
+ *    read user.isAdmin and crash, or give 0/1 instead of a proper
+ *    boolean. Or with permission flags, WRITE & DELETE gives 0 while
+ *    WRITE && DELETE is truthy, so the check says the opposite of what I meant.
+ *
+ * 8. For me the hardest was operator precedence combined with coercion,
+ *    especially things like typeof 5 + 1 and 2 ** 3 ** 2. It clicked when I
+ *    stopped trying to read the line all at once and wrote out the order
+ *    step by step in a comment (which operator fires first, then second).
+ *    Once I did that for the first few, the pattern was obvious. For the next
+ *    cohort I'd say: make students predict before they run it, because
+ *    getting it wrong is what makes it stick.
+ */
